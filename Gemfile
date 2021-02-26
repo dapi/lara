@@ -7,9 +7,11 @@ gem 'rubocop', require: false
 gem "bugsnag", "~> 6.11"
 gem 'sidekiq'
 gem 'redis'
+gem 'redis-rails'
 gem 'hiredis'
 gem 'slim-rails'
 gem 'auto_logger'
+gem 'config'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3'
