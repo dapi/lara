@@ -79,3 +79,5 @@ group :deploy do
   gem 'capistrano-git-with-submodules', '~> 2.0'
 end
 
+
+gem "sorcery", "~> 0.16.0"
