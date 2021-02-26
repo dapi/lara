@@ -2,6 +2,14 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
+gem 'socksify'
+gem 'telegram-bot'
+gem 'rubocop', require: false
+gem "bugsnag", "~> 6.11"
+gem 'sidekiq'
+gem 'redis'
+gem 'hiredis'
+gem 'slim-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3'
@@ -54,3 +62,18 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+group :deploy do
+  gem 'capistrano', '~> 3.2', require: false
+  gem 'capistrano-rbenv', require: false
+  gem 'capistrano-rails', '~> 1.1', require: false
+  gem 'capistrano-nvm', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-yarn', require: false
+  gem 'capistrano-shell', require: false
+  gem 'capistrano-db-tasks', require: false
+  gem 'capistrano-systemd-multiservice', github: 'groovenauts/capistrano-systemd-multiservice', require: false
+  #gem 'capistrano-sidekiq', require: false
+  #gem 'capistrano3-puma', github: 'seuros/capistrano-puma', require: false, ref: '3e6af4f'
+  gem 'capistrano-git-with-submodules', '~> 2.0'
+end
+
