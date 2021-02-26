@@ -72,6 +72,13 @@ GEM
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
+    auto_logger (0.1.4)
+      activesupport
+      beautiful-log
+    awesome_print (1.8.0)
+    beautiful-log (0.2.2)
+      awesome_print (~> 1.8.0)
+      colorize (~> 0.8.1)
     bindex (0.8.1)
     bootsnap (1.7.2)
       msgpack (~> 1.0)
@@ -111,6 +118,7 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     childprocess (3.0.0)
+    colorize (0.8.1)
     concurrent-ruby (1.1.8)
     connection_pool (2.2.3)
     crass (1.0.6)
@@ -232,7 +240,6 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       slim (>= 3.0, < 5.0)
-    socksify (1.7.1)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -282,6 +289,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  auto_logger
   bootsnap (>= 1.4.4)
   bugsnag (~> 6.11)
   byebug
@@ -309,7 +317,6 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   slim-rails
-  socksify
   spring
   telegram-bot
   turbolinks (~> 5)
