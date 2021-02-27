@@ -16,6 +16,24 @@ h2 Классы
 - StudyRoom.find_each do |sr|
   h3= sr.title
 
+  h3 Ученики
+  table.table
+    - sr.student_users.each do |user|
+      tr
+        td= user.name
+
+  h3 Учителя
+  table.table
+    - sr.teacher_users.each do |user|
+      tr
+        td= user.name
+
+  h3 Родители
+  table.table
+    - sr.parents.each do |user|
+      tr
+        td= user.name
+
   h3 Приглашения
 
   table.table

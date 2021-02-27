@@ -10,6 +10,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   rescue_from StandardError, with: :handle_error
 
   def message(payload)
+    # "chat"=>{"id"=>-541244022 значит группа
     current_user
       .messages
       .create!(text: payload['text'],

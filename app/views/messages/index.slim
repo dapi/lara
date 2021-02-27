@@ -1,7 +1,15 @@
 table.table
   - messages.each do |message|
     tr
-      td= l message.created_at, format: :short
+      td
+        = link_to message_path(message) do
+          = l message.created_at, format: :short
       td= message.user.name
-      td= message.text
+      td
+        - if message.reply_to_message_id.present?
+          - if message.payload.dig('from', 'is_bot')
+            = '@> '
+          - else
+            = '> '
+        = message.text
       td= link_to 'Ответить', new_message_path(message: { reply_to_message_id: message.message_id, chat_id: message.chat_id })

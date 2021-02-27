@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_02_27_160931) do
   create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.bigint "chat_id", null: false
-    t.text "text", null: false
+    t.text "text"
     t.jsonb "payload", null: false
     t.bigint "message_id", null: false
     t.bigint "reply_to_message_id"

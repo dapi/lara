@@ -22,6 +22,11 @@ class MessagesController < ApplicationController
     redirect_to messages_path(message_id: message.id)
   end
 
+  def show
+    message = Message.find params[:id]
+    render locals: { message: message }
+  end
+
   private
 
   def permitted_params
