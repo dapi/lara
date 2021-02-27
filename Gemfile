@@ -82,5 +82,3 @@ end
 
 
 gem "sorcery", "~> 0.16.0"
-
-gem "simple_form-tailwind", "~> 0.1.0"
