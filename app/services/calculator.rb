@@ -2,7 +2,7 @@ class Calculator
   REGEXP = /[^ 0-9\+\-\*\/\.\,\(\)]/
 
   def initialize(buffer)
-    @buffer = buffer
+    @buffer = clean buffer
   end
 
   def is_expression?
@@ -10,10 +10,14 @@ class Calculator
   end
 
   def call
-    Dentaku::Calculator.new.evaluate buffer.tr(',','.')
+    Dentaku::Calculator.new.evaluate buffer
   end
 
   private
 
   attr_reader :buffer
+
+  def clean(buffer)
+    buffer.tr(',','.').tr('?','').tr(':','/')
+  end
 end

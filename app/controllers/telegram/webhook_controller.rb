@@ -23,7 +23,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     if calc.is_expression?
       reply_with :message, text: calc.call
     else
-      respond_with :message, text: "Я не понимаю что: #{payload['text']}?"
+      reply_with :message, text: "Я не понимаю"
     end
   end
 
