@@ -1,0 +1,25 @@
+.mt-2.mb-1
+  = link_to '&larr; назад на главную'.html_safe, root_path
+
+h1 Пользователь #{user.name}
+
+h2 Дети
+table.table
+  - user.children.each do |children|
+    tr
+      td= children.full_name
+
+h2 Родители
+table.table
+  - user.parents.each do |parent|
+    tr
+      td= parent.full_name
+
+h2 Потенциальное родительство:
+
+table.table
+  - User.find_each do |parent|
+    - next if parent == user || user.parents.include?(parent)
+    tr
+      td= parent.full_name
+      td= link_to 'Создать родительство', children_relationships_path(children_id: user.id, parent_id: parent.id), method: :create, class: 'btn btn-secondary'

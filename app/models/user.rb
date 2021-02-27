@@ -3,10 +3,10 @@ class User < ApplicationRecord
 
   has_many :memberships
   has_many :study_rooms, through: :memberships
-  has_many :parents_relationships, foreign_key: :parent_id, class_name: 'Relationship', counter_cache: true
-  has_many :children_relationships, foreign_key: :children_id, class_name: 'Relationship', counter_cache: true
+  has_many :parents_relationships, foreign_key: :children_id, class_name: 'Relationship', counter_cache: true
+  has_many :children_relationships, foreign_key: :parent_id, class_name: 'Relationship', counter_cache: true
   has_many :children, through: :children_relationships
-  has_many :parents, through: :parents_relationships
+  has_many :parents, through: :parents_relationships, inverse_of: :children
   has_many :invites
   has_many :messages
 

@@ -1,0 +1,21 @@
+.mt-2.mb-1
+  = link_to '&larr; назад на главную'.html_safe, root_path
+
+h1 Пользователи
+table.table
+  - User.find_each do |user|
+    tr
+      td
+        = link_to user.full_name, user_path(user)
+      td
+        - if user.parents.any?
+          span Родители:
+          - user.parents.each do |parent|
+            span.ml-2= link_to parent.full_name, user_path(parent)
+        - if user.children.any?
+          span Дети:
+          - user.children.each do |children|
+            span.ml-2= link_to children.full_name, user_path(children)
+      td
+        - if user.telegram_info.present?
+          = telegram_link user.telegram_info

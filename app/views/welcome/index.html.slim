@@ -1,15 +1,9 @@
 h1 Лара приветсвует Вас!
 
-.mb-2= link_to 'Переписка', messages_path
-
-h2 Пользователи
-table.table
-  - User.find_each do |user|
-    tr
-      td= user.full_name
-      td
-        - if user.telegram_info.present?
-          = telegram_link user.telegram_info
+.mb-2
+  span.float-left= link_to 'Переписка', messages_path
+  span.float-left.ml-2= link_to 'Пользователи', users_path
+  .clearfix
 
 h2 Классы
 - StudyRoom.find_each do |sr|
