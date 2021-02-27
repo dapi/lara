@@ -44,7 +44,8 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   def start!(message = '', *args)
     if logged_in?
-      respond_with :message, text: "#{current_user.firstname}, привет снова!"
+      respond_with :message,
+        text: multiline("#{current_user.firstname}, привет!", nil, stars_info)
     elsif message.gsub!(/^i_/,'')
       invite = Invite.find_by(key: message)
       if invite.present?
@@ -109,6 +110,16 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   def find_study_room
     # TODO брать из сессии или вычислять у пользователя или спрашивать его
     StudyRoom.first
+  end
+
+  def stars_info
+    student = study_room.students.find_by(user: current_user)
+    return if student.nil?
+    if student.stars.zero?
+      'К сожалению у тебя пока нет звёзд'
+    else
+      student.start.to_s + ' ' + Wallet::STAR
+    end
   end
 
   def handle_error(error)

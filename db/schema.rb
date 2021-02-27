@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_27_160931) do
+ActiveRecord::Schema.define(version: 2021_02_27_203129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2021_02_27_160931) do
     t.uuid "study_room_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "stars", default: 0, null: false
     t.index ["study_room_id"], name: "index_students_on_study_room_id"
     t.index ["user_id", "study_room_id"], name: "index_students_on_user_id_and_study_room_id", unique: true
     t.index ["user_id"], name: "index_students_on_user_id"
