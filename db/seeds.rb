@@ -10,7 +10,7 @@ study_room = StudyRoom
   .find_or_create_by!(title: '5-й класс')
 
 inviter = User
-  .create_with(full_name: 'super master')
+  .create_with(full_name: 'super master', telegram_info: {})
   .find_or_create_by!(telegram_id: 1)
 
 [

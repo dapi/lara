@@ -4,10 +4,11 @@ one:
   firstname: MyString
   surname: MyString
   middlename: MyString
-  phone: MyString
+  telegram_id: 1
+  telegram_info: {}
 
 two:
   firstname: MyString
   surname: MyString
-  middlename: MyString
-  phone: MyString
+  telegram_id: 2
+  telegram_info: {}

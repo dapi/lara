@@ -4,10 +4,13 @@ one:
   inviter: one
   full_name: MyString
   study_room: one
-  key: MyString
+  role: student
+  key: key1
+
 
 two:
   inviter: two
   full_name: MyString
   study_room: two
-  key: MyString
+  role: parents
+  key: key2
