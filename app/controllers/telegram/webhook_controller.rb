@@ -5,7 +5,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   Error = Class.new StandardError
   Unauthenticated = Class.new Error
-  before_action :require_authorization!
+  before_action :require_authorization!, except: [:start!]
 
   rescue_from StandardError, with: :handle_error
 
@@ -13,9 +13,25 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     respond_with :message, text: "Я не понимаю что: #{message['text']}?"
   end
 
-  def start!(word = nil, *other_words)
-    response = from ? "Hello #{from['username']}!" : 'Hi there!'
-    respond_with :message, text: response
+  def start!(message = '', *args)
+    if logged_in?
+      respond_with :message, text: "#{current_user.firstname}, привет снова!"
+    elsif message.gsub!(/^i_/,'')
+      invite = Invite.find_by(key: message)
+      if invite.present?
+        invite.with_lock do
+          user = User
+            .create!(full_name: invite.full_name, telegram_id: from['id'], telegram_info: from)
+          @current_user = user
+          invite.destroy!
+          respond_with :message, text: "Привет, #{user.firstname}! Я Лара - личный помощник по учебоной части."
+        end
+      else
+        respond_with :message, text: 'Похоже у Вас устаревшая ссылка, обратитесь к тому кто вам её выдал чтобы дали новую!'
+      end
+    else
+      raise Unauthenticated
+    end
   end
 
   private
@@ -33,7 +49,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   def current_user
     return unless from
     return @current_user if defined? @current_user
-    @current_user = User.where(telegram_id: from['id'])
+    @current_user = User.find_by telegram_id: from['id']
   end
 
   def logged_in?
@@ -54,11 +70,12 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
         "Твоя Лара."
       )
     else # ActiveRecord::ActiveRecordError
+      binding.pry if Rails.env.development?
       logger.error error
       Bugsnag.notify error do |b|
         b.meta_data = { chat: chat, from: from }
       end
-      respond_with :message, text: "Error: #{error.message}"
+      respond_with :message, text: 'Произошла какая-то ошибка. Поддержка уже в пути!'
     end
   end
 end

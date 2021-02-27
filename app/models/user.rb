@@ -7,14 +7,20 @@ class User < ApplicationRecord
   has_many :children_relationships, foreign_key: :children_id, class_name: 'Relationship', counter_cache: true
   has_many :children, through: :children_relationships
   has_many :parents, through: :parents_relationships
+  has_many :invites
 
   before_validation do
-    self.phone = Phonelib.parse(phone).to_s
+    self.phone = Phonelib.parse(phone).to_s if phone.present?
   end
 
   validates :firstname, presence: true
   validates :surname, presence: true
-  validates :phone, presence: true, phone: true, uniqueness: true
+  validates :phone, phone: { allow_blank: true }, uniqueness: { allow_blank: true }
+  validates :telegram_id, uniqueness: true
+
+  def name
+    [firstname, middlename].compact.join(' ')
+  end
 
   # ФИО
   def full_name
@@ -24,9 +30,5 @@ class User < ApplicationRecord
   # ФИО
   def full_name=(value)
     self.surname, self.firstname, self.middlename = value.chomp.squish.split(/\s/)
-  end
-
-  def telegram_attach_url
-    TelegramVerifier.build_link user_id: id
   end
 end

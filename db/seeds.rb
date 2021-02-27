@@ -6,15 +6,20 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 #
-room = StudyRoom.find_or_create_by(title: '5-й класс')
+study_room = StudyRoom
+  .find_or_create_by!(title: '5-й класс')
+
+inviter = User
+  .create_with(full_name: 'super master')
+  .find_or_create_by!(telegram_id: 1)
 
 [
-  ['Письменная Агата', '+79051985596'],
-  ['Письменный Данил Викторович', '+79033891228'],
-  ['Письменная Татьяна Николаевна', '+79613429022'],
-  ['Кочнева Наталия Валерьевна', '+79196561039'],
-].each do |user_info|
-  User
-    .create_with(full_name: user_info.first)
-    .find_or_create_by(phone: user_info.second)
+  ['Письменная Агата', :student],
+  ['Письменный Данил Викторович', :parents],
+  ['Письменная Татьяна Николаевна', :parents],
+  ['Кочнева Наталия Валерьевна', :teacher]
+].each do |info|
+  Invite
+    .create_with(role: info.second)
+    .find_or_create_by!(full_name: info.first, inviter: inviter, study_room: study_room)
 end

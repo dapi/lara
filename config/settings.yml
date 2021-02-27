@@ -1,3 +1,6 @@
 default_url_options: 
   host: 3008.brandymint.ru
   protocol: https
+
+bot_link: https://telegram.me/LARA_HELPER_BOT
+# https://t.me/lara_helper_bot
