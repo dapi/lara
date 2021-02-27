@@ -9,9 +9,16 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   rescue_from StandardError, with: :handle_error
 
-  def message(message)
-    current_user.messages.create!(text: message['text'], payload: message, chat_id: chat['id'])
-    respond_with :message, text: "Я не понимаю что: #{message['text']}?"
+  def message(payload)
+    current_user
+      .messages
+      .create!(text: payload['text'],
+               payload: payload,
+               chat_id: chat['id'],
+               message_id: payload['message_id'],
+               reply_message_id: payload.dig('reply_to_message', 'message_id')
+              )
+    respond_with :message, text: "Я не понимаю что: #{payload['text']}?"
   end
 
   def start!(message = '', *args)

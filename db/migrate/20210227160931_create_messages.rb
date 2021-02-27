@@ -5,6 +5,8 @@ class CreateMessages < ActiveRecord::Migration[6.1]
       t.bigint :chat_id, null: false
       t.text :text, null: false
       t.jsonb :payload, null: false
+      t.bigint :message_id, null: false
+      t.bigint :reply_message_id
 
       t.timestamps
     end
