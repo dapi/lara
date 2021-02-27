@@ -20,7 +20,7 @@ module.exports = {
   },
   purge: {
     content: ["./app/**/*.html.slim"],
-  }
+  },
   variants: {
     extend: {},
   },
