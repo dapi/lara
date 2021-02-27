@@ -138,6 +138,7 @@ GEM
     connection_pool (2.2.3)
     crass (1.0.6)
     deep_merge (1.2.1)
+    dentaku (3.4.1)
     dry-configurable (0.12.1)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5.0)
@@ -419,6 +420,7 @@ DEPENDENCIES
   capistrano-yarn
   capybara (>= 3.26)
   config
+  dentaku (~> 3.4)
   guard
   guard-minitest
   hiredis

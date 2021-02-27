@@ -19,7 +19,21 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
                message_id: payload['message_id'],
                reply_to_message_id: payload.dig('reply_to_message', 'message_id')
               )
-    respond_with :message, text: "Я не понимаю что: #{payload['text']}?"
+    calc = Calculator.new payload['text']
+    if calc.is_expression?
+      reply_with :message, text: calc.call
+    else
+      respond_with :message, text: "Я не понимаю что: #{payload['text']}?"
+    end
+  end
+
+  def info!
+    respond_with :message,
+      text: multiline(study_room.title, nil,
+                      'Ученики:' + study_room.student_users.map(&:full_name).join(', '),
+                      'Учетиля:' + study_room.teacher_users.map(&:full_name).join(', '),
+                      'Родители:' + study_room.parents.map(&:full_name).join(', '),
+                     )
   end
 
   # Отправляет в чат ссылку на логин на web-е
@@ -86,6 +100,15 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   def logged_in?
     current_user.present?
+  end
+
+  def study_room
+    @study_room ||= find_study_room
+  end
+
+  def find_study_room
+    # TODO брать из сессии или вычислять у пользователя или спрашивать его
+    StudyRoom.first
   end
 
   def handle_error(error)

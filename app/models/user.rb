@@ -2,7 +2,6 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
 
   has_many :memberships
-  has_many :study_rooms, through: :memberships
   has_many :parents_relationships, foreign_key: :children_id, class_name: 'Relationship', counter_cache: true
   has_many :children_relationships, foreign_key: :parent_id, class_name: 'Relationship', counter_cache: true
   has_many :children, through: :children_relationships

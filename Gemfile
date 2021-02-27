@@ -89,3 +89,5 @@ end
 
 
 gem "sorcery", "~> 0.16.0"
+
+gem "dentaku", "~> 3.4"

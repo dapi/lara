@@ -2,10 +2,14 @@
 
 one:
   user: one
-  chat_id: 
-  message: MyText
+  chat_id:  1
+  text: MyText
+  payload: {}
+  message_id: 1
 
 two:
   user: two
-  chat_id: 
-  message: MyText
+  message_id: 2
+  chat_id:  2
+  text: MyText
+  payload: {}
