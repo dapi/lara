@@ -10,4 +10,7 @@ html lang='ru'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     .container
+      .mt-3.alert.alert-success
+        | Привет!&nbsp;
+        = current_user.name
       = yield

@@ -22,6 +22,12 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     respond_with :message, text: "Я не понимаю что: #{payload['text']}?"
   end
 
+  # Отправляет в чат ссылку на логин на web-е
+  def login!
+    link = TelegramVerifier.build_link user_id: current_user.id
+    respond_with :message, text: "Сходите по ссылке #{link} чтобы атворизоваться"
+  end
+
   def start!(message = '', *args)
     if logged_in?
       respond_with :message, text: "#{current_user.firstname}, привет снова!"
