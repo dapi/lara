@@ -1,1 +1,15 @@
 h1 Лара приветсвует Вас!
+
+- StudyRoom.each do |sr|
+  h2= sr.title
+
+  h3 Родители
+  = render 'memberships', memberships: sr.memberships.parents
+
+  h3 Ученики
+  = render 'memberships', memberships: sr.memberships.students
+  h3 Учитиля
+  = render 'memberships', memberships: sr.memberships.teachers
+  h3 Классные руководители
+  = render 'memberships', memberships: sr.memberships.leads
+  hr

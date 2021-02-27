@@ -5,7 +5,6 @@ class CreateMemberships < ActiveRecord::Migration[6.1]
       t.references :study_room, null: false, foreign_key: true, type: :uuid, null: false
       t.boolean :is_teacher, null: false, default: false
       t.boolean :is_student, null: false, default: false
-      t.boolean :is_parent, null: false, default: false
       t.boolean :is_lead, null: false, default: false
 
       t.timestamps

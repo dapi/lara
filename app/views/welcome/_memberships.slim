@@ -1,0 +1,6 @@
+table.table.table-condensed
+  tbody
+    - memberships.includes(:user).order(users: [:surname, :name]).each do |member|
+      tr
+        td= member.user.full_name
+        td= member.user.phone

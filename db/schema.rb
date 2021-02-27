@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_27_121544) do
+ActiveRecord::Schema.define(version: 2021_02_27_123053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -33,13 +33,22 @@ ActiveRecord::Schema.define(version: 2021_02_27_121544) do
     t.uuid "study_room_id", null: false
     t.boolean "is_teacher", default: false, null: false
     t.boolean "is_student", default: false, null: false
-    t.boolean "is_parent", default: false, null: false
     t.boolean "is_lead", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["study_room_id", "user_id"], name: "index_memberships_on_study_room_id_and_user_id", unique: true
     t.index ["study_room_id"], name: "index_memberships_on_study_room_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "relationships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "parent_id", null: false
+    t.uuid "children_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["children_id"], name: "index_relationships_on_children_id"
+    t.index ["parent_id", "children_id"], name: "index_relationships_on_parent_id_and_children_id", unique: true
+    t.index ["parent_id"], name: "index_relationships_on_parent_id"
   end
 
   create_table "study_rooms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -56,8 +65,11 @@ ActiveRecord::Schema.define(version: 2021_02_27_121544) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "telegram_id"
+    t.jsonb "telegram_info"
   end
 
   add_foreign_key "memberships", "study_rooms"
   add_foreign_key "memberships", "users"
+  add_foreign_key "relationships", "users", column: "children_id"
+  add_foreign_key "relationships", "users", column: "parent_id"
 end
