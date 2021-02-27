@@ -16,7 +16,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
                payload: payload,
                chat_id: chat['id'],
                message_id: payload['message_id'],
-               reply_message_id: payload.dig('reply_to_message', 'message_id')
+               reply_to_message_id: payload.dig('reply_to_message', 'message_id')
               )
     respond_with :message, text: "Я не понимаю что: #{payload['text']}?"
   end
@@ -48,7 +48,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
       @current_user = user
       case invite.role
       when 'parents'
-      when 'students'
+      when 'student'
         invite.study_room.student_users << user
       when 'teacher'
         invite.study_room.teacher_users << user

@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2021_02_27_160931) do
     t.text "text", null: false
     t.jsonb "payload", null: false
     t.bigint "message_id", null: false
-    t.bigint "reply_message_id"
+    t.bigint "reply_to_message_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_messages_on_user_id"

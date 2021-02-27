@@ -1,0 +1,5 @@
+= simple_form_for message do |f|
+  = f.input :reply_to_message_id, as: :hidden
+  = f.input :chat_id, as: :hidden
+  = f.input :text
+  = f.submit
