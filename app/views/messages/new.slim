@@ -1,5 +1,8 @@
+.mt-2= link_to '&larr; назад в список сообщений'.html_safe, messages_path
+h1 Ответ на сообщение
+.alert.alert-secondary= original_message.text
 = simple_form_for message do |f|
   = f.input :reply_to_message_id, as: :hidden
   = f.input :chat_id, as: :hidden
   = f.input :text
-  = f.submit
+  = f.submit 'Ответить', class: 'btn btn-primary'

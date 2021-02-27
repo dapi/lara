@@ -5,7 +5,9 @@ class MessagesController < ApplicationController
   end
 
   def new
-    render locals: { message: Message.new(permitted_params) }
+    message = Message.new(permitted_params)
+    original_message = Message.find_by(chat_id: message.chat_id, message_id: message.reply_to_message_id)
+    render locals: { message: message, original_message: original_message }
   end
 
   def create

@@ -12,3 +12,7 @@ import  "../layouts/application.css"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+import "jquery"
+import "popper.js"
+import "bootstrap"

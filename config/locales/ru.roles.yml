@@ -1,6 +1,8 @@
 ru:
   activerecord:
     attributes:
+      message:
+        text: Текст сообщения
       invite:
         roles:
           parents: Родитель

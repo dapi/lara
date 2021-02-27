@@ -1,4 +1,6 @@
-table.table
+.mt-2= link_to '&larr; назад на главную'.html_safe, root_path
+h1 Переписка
+table.table.m-t-md
   - messages.each do |message|
     tr
       td

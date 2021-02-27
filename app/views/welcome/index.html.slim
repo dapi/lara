@@ -1,13 +1,12 @@
 h1 Лара приветсвует Вас!
 
-= link_to 'Переписка', messages_path
+.mb-2= link_to 'Переписка', messages_path
 
 h2 Пользователи
 table.table
   - User.find_each do |user|
     tr
       td= user.full_name
-      td= user.telegram_id
       td
         - if user.telegram_info.present?
           = telegram_link user.telegram_info
@@ -36,7 +35,7 @@ h2 Классы
 
   h3 Приглашения
 
-  table.table
+  table.table.table-condensed.table-stripped
     thead
       tr
         th Имя
