@@ -10,6 +10,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   rescue_from StandardError, with: :handle_error
 
   def message(message)
+    current_user.messages.create!(text: message['text'], payload: message, chat_id: chat['id'])
     respond_with :message, text: "Я не понимаю что: #{message['text']}?"
   end
 
@@ -50,7 +51,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
       respond_with :message,
         text: multiline("Привет, #{user.name}!",
-                        "Я Лара - личный помощник по учебоной части. Теперь я знаю что ты #{invite.role} в #{invite.study_room.title}")
+                        "Я Лара - личный помощник по учебной части. Теперь я знаю что ты #{Invite.human_enum_name :role, invite.role} в #{invite.study_room.title}")
       invite.destroy!
     end
   end

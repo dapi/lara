@@ -1,0 +1,6 @@
+table.table
+  - messages.each do |message|
+    tr
+      td= l message.created_at, format: :short
+      td= message.user.name
+      td= message.text

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :children, through: :children_relationships
   has_many :parents, through: :parents_relationships
   has_many :invites
+  has_many :messages
 
   before_validation do
     self.phone = Phonelib.parse(phone).to_s if phone.present?

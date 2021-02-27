@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_27_145943) do
+ActiveRecord::Schema.define(version: 2021_02_27_160931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -52,6 +52,16 @@ ActiveRecord::Schema.define(version: 2021_02_27_145943) do
     t.index ["study_room_id", "user_id"], name: "index_memberships_on_study_room_id_and_user_id", unique: true
     t.index ["study_room_id"], name: "index_memberships_on_study_room_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.bigint "chat_id", null: false
+    t.text "text", null: false
+    t.jsonb "payload", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "relationships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -108,6 +118,7 @@ ActiveRecord::Schema.define(version: 2021_02_27_145943) do
   add_foreign_key "invites", "users", column: "inviter_id"
   add_foreign_key "memberships", "study_rooms"
   add_foreign_key "memberships", "users"
+  add_foreign_key "messages", "users"
   add_foreign_key "relationships", "users", column: "children_id"
   add_foreign_key "relationships", "users", column: "parent_id"
   add_foreign_key "students", "study_rooms"

@@ -5,9 +5,10 @@ table.table
   - User.find_each do |user|
     tr
       td= user.full_name
+      td= user.telegram_id
       td
         - if user.telegram_info.present?
-          = telegram_link user.telegram_info['username']
+          = telegram_link user.telegram_info
 
 h2 Классы
 - StudyRoom.find_each do |sr|
