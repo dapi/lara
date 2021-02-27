@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2021_02_27_145943) do
     t.string "full_name", null: false
     t.uuid "study_room_id", null: false
     t.string "key", null: false
-    t.string "role", null: false
+    t.integer "role", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["inviter_id"], name: "index_invites_on_inviter_id"

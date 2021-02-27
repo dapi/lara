@@ -19,15 +19,10 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     elsif message.gsub!(/^i_/,'')
       invite = Invite.find_by(key: message)
       if invite.present?
-        invite.with_lock do
-          user = User
-            .create!(full_name: invite.full_name, telegram_id: from['id'], telegram_info: from)
-          @current_user = user
-          invite.destroy!
-          respond_with :message, text: "Привет, #{user.firstname}! Я Лара - личный помощник по учебоной части."
-        end
+        accept_invite! invite
       else
-        respond_with :message, text: 'Похоже у Вас устаревшая ссылка, обратитесь к тому кто вам её выдал чтобы дали новую!'
+        respond_with :message,
+          text: 'Похоже у Вас устаревшая ссылка, обратитесь к тому кто вам её выдал чтобы дали новую!'
       end
     else
       raise Unauthenticated
@@ -37,6 +32,28 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   private
 
   attr_reader :current_user
+
+  def accept_invite!(invite)
+    invite.with_lock do
+      user = User
+        .create!(full_name: invite.full_name, telegram_id: from['id'], telegram_info: from)
+      @current_user = user
+      case invite.role
+      when 'parents'
+      when 'students'
+        invite.study_room.student_users << user
+      when 'teacher'
+        invite.study_room.teacher_users << user
+      else
+        raise "Unknown invite role #{invite.role} for #{invite.id}"
+      end
+
+      respond_with :message,
+        text: multiline("Привет, #{user.name}!",
+                        "Я Лара - личный помощник по учебоной части. Теперь я знаю что ты #{invite.role} в #{invite.study_room.title}")
+      invite.destroy!
+    end
+  end
 
   def multiline(*args)
     args.flatten.map(&:to_s).join("\n")

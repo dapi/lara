@@ -1,0 +1,8 @@
+ru:
+  activerecord:
+    attributes:
+      invite:
+        roles:
+          parents: Родитель
+          teacher: Учитель
+          student: Ученик

@@ -5,7 +5,7 @@ class CreateInvites < ActiveRecord::Migration[6.1]
       t.string :full_name, null: false
       t.references :study_room, null: false, foreign_key: true, type: :uuid, null: false
       t.string :key, null: false
-      t.string :role, null: false
+      t.integer :role, null: false
 
       t.timestamps
     end
