@@ -24,5 +24,6 @@ module Mariva
     end
     config.i18n.default_locale = :ru
     config.active_job.queue_adapter = :sidekiq
+    config.telegram_updates_controller.session_store = :redis_store, {expires_in: 1.month}
   end
 end

@@ -1,121 +1,29 @@
 class Telegram::WebhookController < Telegram::Bot::UpdatesController
   include StarsHelper
+  include HandleErrors
+
+  include Telegram::Bot::UpdatesController::MessageContext
 
   #include Telegram::Bot::UpdatesController::Session
-  #include Telegram::Bot::UpdatesController::MessageContext
   #include Telegram::Bot::UpdatesController::CallbackQueryContext
 
   Error = Class.new StandardError
   Unauthenticated = Class.new Error
+
   before_action :require_authorization!, except: [:start!]
 
-  rescue_from StandardError, with: :handle_error
+  include ActionStart
+  include ActionMessage
+  include ActionInvite
+  include ActionClass
+  include ActionLogin
+  include ActionGive
 
-  def message(payload)
-    # "chat"=>{"id"=>-541244022 значит группа
-    current_user
-      .messages
-      .create!(text: payload['text'],
-               payload: payload,
-               chat_id: chat['id'],
-               message_id: payload['message_id'],
-               reply_to_message_id: payload.dig('reply_to_message', 'message_id')
-              )
-    calc = Calculator.new payload['text']
-    if calc.is_expression?
-      reply_with :message, text: calc.call
-    else
-      reply_with :message, text: "Я не понимаю"
-    end
-  end
-
-  # Пригласить человека на роль
-  def invite!(role = nil, *full_name)
-    if role.present? && full_name.present?
-      invite = current_user.invites.create!(
-        full_name: full_name.join(' '),
-        role: role,
-        study_room: study_room
-      )
-      reply_with :message, text: "Отправьте #{invite.full_name} эту ссылку для регистрации - #{invite.telegram_attach_url}"
-    else
-      reply_with :message, text: 'Укажите роль (student, parents, teacher) и ФИО. Например: /invite student Письменная Агата'
-    end
-  end
-
-  # Информация о классе
-  def class!
-    respond_with :message,
-      text: multiline(study_room.title, nil,
-                      'Ученики: ' + study_room.student_users.map(&:full_name).join(', '),
-                      'Учетиля: ' + study_room.teacher_users.map(&:full_name).join(', '),
-                      'Родители: ' + study_room.parents.map(&:full_name).join(', '),
-                      'У всего класса: ' + humanized_stars(study_room.total_stars)
-                     )
-  end
-
-  # Информация о моем кошельке
-  def wallet!
-    if current_student.present?
-      reply_with :message,
-        text: multiline(
-          current_user.firstname + ', у тебя ' + humanized_stars(current_student.wallet.stars),
-          'У всего класса: ' + humanized_stars(study_room.total_stars)
-      )
-    else
-      reply_with :message, text: 'Звезды есть только у учеников'
-    end
-  end
-
-  # Отправляет в чат ссылку на логин на web-е
-  def login!
-    link = TelegramVerifier.build_link user_id: current_user.id
-    respond_with :message,
-      text: "Сходите по ссылке #{link} чтобы атворизоваться"
-  end
-
-  def start!(message = '', *args)
-    if logged_in?
-      respond_with :message,
-        text: "#{current_user.firstname}, привет!"
-    elsif message.gsub!(/^i_/,'')
-      invite = Invite.find_by(key: message)
-      if invite.present?
-        accept_invite invite
-      else
-        respond_with :message,
-          text: 'Похоже у Вас устаревшая ссылка, обратитесь к тому кто вам её выдал чтобы дали новую!'
-      end
-    else
-      raise Unauthenticated
-    end
+  def callback_query(data)
+    edit_message :text, text: "Вы выбрали #{data}"
   end
 
   private
-
-  attr_reader :current_user
-
-  def accept_invite(invite)
-    invite.with_lock do
-      user = User
-        .create!(full_name: invite.full_name, telegram_id: from['id'], telegram_info: from)
-      @current_user = user
-      case invite.role
-      when 'parents'
-      when 'student'
-        invite.study_room.student_users << user
-      when 'teacher'
-        invite.study_room.teacher_users << user
-      else
-        raise "Unknown invite role #{invite.role} for #{invite.id}"
-      end
-
-      respond_with :message,
-        text: multiline("Привет, #{user.name}!",
-                        "Я Лара - личный помощник по учебной части. Теперь я знаю что ты #{Invite.human_enum_name :role, invite.role} в #{invite.study_room.title}")
-      invite.destroy!
-    end
-  end
 
   def multiline(*args)
     args.flatten.map(&:to_s).join("\n")
@@ -146,28 +54,5 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   def find_study_room
     # TODO брать из сессии или вычислять у пользователя или спрашивать его
     StudyRoom.first
-  end
-
-  def handle_error(error)
-    case error
-    when Telegram::Bot::Forbidden
-      Bugsnag.notify error
-      logger.error(error)
-    when Unauthenticated
-      respond_with :message, text: multiline(
-        "Привет, #{from['first_name']}!",
-        nil,
-        "К сожалению мы с тобой не знакомы. Обратись к своему классному руководителю чтобы он нас познакомил.",
-        nil,
-        "Твоя Лара."
-      )
-    else # ActiveRecord::ActiveRecordError
-      binding.pry if Rails.env.development?
-      logger.error error
-      Bugsnag.notify error do |b|
-        b.meta_data = { chat: chat, from: from }
-      end
-      respond_with :message, text: 'Произошла какая-то ошибка. Поддержка уже в пути!'
-    end
   end
 end
