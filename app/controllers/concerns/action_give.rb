@@ -1,4 +1,5 @@
 module ActionGive
+  MAX_STARS = 10
   # Выдает звездочки
   def give!(*args)
     save_context nil
@@ -12,17 +13,23 @@ module ActionGive
 
   def give_stars(stars, *message)
     student = Student.find session[:selected_student_id]
-    session[:give_stars] = stars
-    reply_with :message, text: "Выбранный ученик: #{student.name}, дадим #{stars} #{Wallet::STAR}. Напишите за что?"
-    save_context :comment_stars_giving
+    stars = stars.to_i
+    if stars < 1 || stars > MAX_STARS
+      save_context :give_stars
+      respond_with :message, text: "Количество звёзд должно быть больше 1 и меньше #{MAX_STARS}. Введите число звёзд дла #{student.name}"
+    else
+      session[:give_stars] = stars
+      respond_with :message, text: "Выбранный ученик: #{student.name}, дадим #{stars} #{Wallet::STAR}. Напишите за что?"
+      save_context :comment_stars_giving
+    end
   end
 
   def comment_stars_giving(*message)
     message = message.join(' ')
     student = Student.find session[:selected_student_id]
     stars = session[:give_stars].to_i
-    Accountant.new(student.wallet).income!(stars, message)
-    reply_with :message, text: "Выдала #{stars} #{student.name} с сообщением #{mesage}"
+    Accountant.new(student.wallet).income!(stars, current_user, message)
+    reply_with :message, text: "Выдано #{stars} #{Wallet::STAR} #{student.name} с сообщением '#{message}'"
     session[:give_stars] = nil
     session[:selected_student_id] = nil
   end

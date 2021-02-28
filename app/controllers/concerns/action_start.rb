@@ -1,6 +1,5 @@
 module ActionStart
   def start!(message = '', *args)
-    save_context nil
     if logged_in?
       start_message
     elsif key = message.gsub(/^i_/,'')
