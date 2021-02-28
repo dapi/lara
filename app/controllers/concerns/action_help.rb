@@ -1,6 +1,6 @@
 module ActionHelp
   def help!(*)
-    reply_with :message, text: Settings.help_message
+    reply_with :message, text: multiline("Привет, #{current_user.full_name}!", Settings.help_message)
   end
 
   def admin!(*)

@@ -1,15 +1,14 @@
 module ActionStart
   def start!(message = '', *args)
     if logged_in?
-      reply_with :message,
-        text: multiline("#{current_user.firstname}, привет!", nil, Settings.welcome_message)
-    elsif message.gsub!(/^i_/,'')
-      invite = Invite.find_by(key: message)
+      start_message
+    elsif key = message.gsub(/^i_/,'')
+      invite = Invite.find_by(key: key)
       if invite.present?
         accept_invite invite
       else
         reply_with :message,
-          text: 'Похоже у Вас устаревшая ссылка, обратитесь к тому кто вам её выдал чтобы дали новую!'
+          text: "Привет, #{from['username'] || from['first_name'] || from['id']}! Похоже у тебя устаревшая ссылка (#{message}), обратитесь к тому кто вам её выдал чтобы дали новую!"
       end
     else
       raise Unauthenticated
@@ -33,10 +32,15 @@ module ActionStart
         raise "Unknown invite role #{invite.role} for #{invite.id}"
       end
 
+      start_message
       respond_with :message,
-        text: multiline("Привет, #{user.name}!",
-                        "Я Лара - личный помощник по учебной части. Теперь я знаю что ты #{Invite.human_enum_name :role, invite.role} в #{invite.study_room.title}")
+        text: multiline("Теперь я знаю что ты #{Invite.human_enum_name :role, invite.role} в #{invite.study_room.title}")
       invite.destroy!
     end
+  end
+
+  def start_message
+    reply_with :message,
+      text: multiline("#{current_user.firstname}, привет!", nil, Settings.welcome_message)
   end
 end

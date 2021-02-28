@@ -2,7 +2,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   include StarsHelper
   include HandleErrors
 
-  # include Telegram::Bot::UpdatesController::MessageContext
+  include Telegram::Bot::UpdatesController::MessageContext
 
   #include Telegram::Bot::UpdatesController::Session
   #include Telegram::Bot::UpdatesController::CallbackQueryContext

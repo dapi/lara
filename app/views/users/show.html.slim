@@ -3,6 +3,8 @@
 
 h1 Пользователь #{user.name}
 
+pre= user.telegram_info
+
 h2 Дети
 table.table
   - user.children.each do |children|

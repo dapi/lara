@@ -11,6 +11,9 @@ module HandleErrors
       Bugsnag.notify error
       logger.error(error)
     when Unauthenticated
+      Bugsnag.notify error do |b|
+        b.meta_data = { from: from, chat: chat }
+      end
       respond_with :message, text: multiline(
         "Привет, #{from['first_name']}!",
         nil,
