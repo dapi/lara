@@ -81,7 +81,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     elsif message.gsub!(/^i_/,'')
       invite = Invite.find_by(key: message)
       if invite.present?
-        accept_invite! invite
+        accept_invite invite
       else
         respond_with :message,
           text: 'Похоже у Вас устаревшая ссылка, обратитесь к тому кто вам её выдал чтобы дали новую!'
@@ -95,7 +95,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   attr_reader :current_user
 
-  def accept_invite!(invite)
+  def accept_invite(invite)
     invite.with_lock do
       user = User
         .create!(full_name: invite.full_name, telegram_id: from['id'], telegram_info: from)
