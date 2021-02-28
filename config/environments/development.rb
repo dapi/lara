@@ -74,6 +74,8 @@ Rails.application.configure do
   config.hosts << "3008.brandymint.ru"
   config.web_console.whitelisted_ips = '94.232.57.6'
 
+  Rails.application.config.active_job.queue_adapter = :inline
+
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 end

@@ -11,8 +11,8 @@ class Accountant
 
     owner = wallet.student.user
 
-    Telegram.bot.send_message(
-      chat_id: owner.telegram_id,
+    SendMessageJob.perform_async(
+      chat_ids: owner.telegram_id,
       text: "#{payer.name} дал вам #{stars} #{Wallet::STAR}. Теперь у вас #{wallet.humanized}!"
     )
   end

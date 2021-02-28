@@ -13,9 +13,9 @@ class MessagesController < ApplicationController
   def create
     message = Message.new permitted_params
 
+    # TODO Замениь на SendMessageJob
     original_message = Message.find_by(chat_id: message.chat_id, message_id: message.reply_to_message_id)
     message.user = original_message.user
-    # https://core.telegram.org/bots/api#sendmessage
     response = Telegram.bot.send_message message.slice(:chat_id, :text, :reply_to_message_id)
     message.payload = response['result']
     message.message_id = message.payload['message_id']

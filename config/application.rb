@@ -23,5 +23,6 @@ module Mariva
       g.orm :active_record, primary_key_type: :uuid
     end
     config.i18n.default_locale = :ru
+    config.active_job.queue_adapter = :sidekiq
   end
 end
