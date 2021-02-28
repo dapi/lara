@@ -4,3 +4,8 @@ default_url_options:
 
 bot_link: https://telegram.me/LARA_HELPER_BOT
 # https://t.me/lara_helper_bot
+
+welcome_message: |-
+  Я - Лара - электронный дежурный.
+  Ученикам я рассылаю домашнее задание и выдаю ⭐️ за успехи.
+  Учителям и родителям я помогаю наблюдать за твоими успехами.
