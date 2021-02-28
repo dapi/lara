@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :children_relationships, foreign_key: :parent_id, class_name: 'Relationship', counter_cache: true
   has_many :children, through: :children_relationships
   has_many :parents, through: :parents_relationships, inverse_of: :children
-  has_many :invites
+  has_many :invites, inverse_of: :inviter, foreign_key: :inviter_id
   has_many :messages
 
   before_validation do

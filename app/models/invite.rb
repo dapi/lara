@@ -4,6 +4,8 @@ class Invite < ApplicationRecord
 
   enum role: [:student, :teacher, :parents]
 
+  validates :full_name, presence: true
+
   before_create do
     self.key = SecureRandom.alphanumeric(10)
   end
