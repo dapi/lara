@@ -7,9 +7,6 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   #include Telegram::Bot::UpdatesController::Session
   #include Telegram::Bot::UpdatesController::CallbackQueryContext
 
-  Error = Class.new StandardError
-  Unauthenticated = Class.new Error
-
   before_action :require_authorization!, except: [:start!]
 
   include ActionStart
@@ -18,6 +15,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   include ActionClass
   include ActionLogin
   include ActionGive
+  include ActionHelp
 
   def callback_query(data)
     edit_message :text, text: "Вы выбрали #{data}"
