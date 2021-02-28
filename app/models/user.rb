@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :invites, inverse_of: :inviter, foreign_key: :inviter_id
   has_many :messages
 
+  has_many :students
+  has_many :student_wallets, through: :students, source: :wallet
+
   before_validation do
     self.phone = Phonelib.parse(phone).to_s if phone.present?
   end

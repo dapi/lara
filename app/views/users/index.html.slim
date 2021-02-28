@@ -19,3 +19,4 @@ table.table
       td
         - if user.telegram_info.present?
           = telegram_link user.telegram_info
+        .text-muted.text-small= user.telegram_id

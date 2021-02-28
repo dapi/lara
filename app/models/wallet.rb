@@ -6,7 +6,7 @@ class Wallet < ApplicationRecord
     if stars.zero?
       'Нет звёзд'
     else
-      STAR + stars.to_s
+      stars.to_s + STAR
     end
   end
 end
