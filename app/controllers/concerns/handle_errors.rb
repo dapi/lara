@@ -22,7 +22,7 @@ module HandleErrors
         "Твоя Лара."
       )
     else # ActiveRecord::ActiveRecordError
-      binding.pry if Rails.env.development?
+      #binding.pry if Rails.env.development?
       logger.error error
       Bugsnag.notify error do |b|
         b.meta_data = { chat: chat, from: from }

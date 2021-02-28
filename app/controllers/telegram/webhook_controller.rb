@@ -24,6 +24,10 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     edit_message :text, text: "Вы выбрали #{data}"
   end
 
+  def error!
+    raise StandardError, 'test error'
+  end
+
   private
 
   def multiline(*args)
@@ -31,7 +35,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   end
 
   def require_authorization!
-    raise Unauthenticated unless logged_in?
+    raise Unauthenticated, (chat || from) unless logged_in?
   end
 
   def current_user
