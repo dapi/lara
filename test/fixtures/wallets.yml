@@ -2,8 +2,8 @@
 
 one:
   student: one
-  start: 1
+  stars: 1
 
 two:
   student: two
-  start: 1
+  stars: 2
