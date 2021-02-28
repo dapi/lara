@@ -1,4 +1,6 @@
 class Telegram::WebhookController < Telegram::Bot::UpdatesController
+  include StarsHelper
+
   #include Telegram::Bot::UpdatesController::Session
   #include Telegram::Bot::UpdatesController::MessageContext
   #include Telegram::Bot::UpdatesController::CallbackQueryContext
@@ -41,18 +43,25 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     end
   end
 
-  def info!
+  # Информация о классе
+  def class!
     respond_with :message,
       text: multiline(study_room.title, nil,
-                      'Ученики:' + study_room.student_users.map(&:full_name).join(', '),
-                      'Учетиля:' + study_room.teacher_users.map(&:full_name).join(', '),
-                      'Родители:' + study_room.parents.map(&:full_name).join(', '),
+                      'Ученики: ' + study_room.student_users.map(&:full_name).join(', '),
+                      'Учетиля: ' + study_room.teacher_users.map(&:full_name).join(', '),
+                      'Родители: ' + study_room.parents.map(&:full_name).join(', '),
+                      'У всего класса: ' + humanized_stars(study_room.total_stars)
                      )
   end
 
+  # Информация о моем кошельке
   def wallet!
     if current_student.present?
-      reply_with :message, text: current_student.wallet.humanized
+      reply_with :message,
+        text: multiline(
+          current_user.firstname + ', у тебя ' + humanized_stars(current_student.wallet.stars),
+          'У всего класса: ' + humanized_stars(study_room.total_stars)
+      )
     else
       reply_with :message, text: 'Звезды есть только у учеников'
     end
@@ -61,7 +70,8 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   # Отправляет в чат ссылку на логин на web-е
   def login!
     link = TelegramVerifier.build_link user_id: current_user.id
-    respond_with :message, text: "Сходите по ссылке #{link} чтобы атворизоваться"
+    respond_with :message,
+      text: "Сходите по ссылке #{link} чтобы атворизоваться"
   end
 
   def start!(message = '', *args)
