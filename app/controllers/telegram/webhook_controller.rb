@@ -3,12 +3,13 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   include HandleErrors
 
   include Telegram::Bot::UpdatesController::MessageContext
+  include Telegram::Bot::UpdatesController::CallbackQueryContext
 
   #include Telegram::Bot::UpdatesController::Session
-  #include Telegram::Bot::UpdatesController::CallbackQueryContext
 
   before_action :require_authorization!, except: [:start!]
 
+  # TODO Сохранять ответы в Message
   include ActionStart
   include ActionMessage
   include ActionInvite
@@ -16,8 +17,10 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
   include ActionLogin
   include ActionGive
   include ActionHelp
+  include ActionWallet
 
   def callback_query(data)
+    Bugsnag.notify "Выбор без контекста, странно"
     edit_message :text, text: "Вы выбрали #{data}"
   end
 

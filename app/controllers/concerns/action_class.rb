@@ -3,9 +3,9 @@ module ActionClass
   def class!
     reply_with :message,
       text: multiline(study_room.title, nil,
-                      'Учитиля: ' + study_room.student_users.map(&:full_name).join(', '),
-                      'Учетиля: ' + study_room.teacher_users.map(&:full_name).join(', '),
-                      'Родители: ' + study_room.parents.map(&:full_name).join(', '),
+                      'Ученики: ' + (study_room.student_users.map(&:full_name).join(', ').presence || 'Пока не зарегистрированы'),
+                      'Учителя: ' + (study_room.teacher_users.map(&:full_name).join(', ').presence || 'Пока не зарегистрированы'),
+                      'Родители: ' + (study_room.parents.map(&:full_name).join(', ').presence || 'Пока не зарегистрированы'),
                       'У всего класса: ' + humanized_stars(study_room.total_stars)
                      )
   end

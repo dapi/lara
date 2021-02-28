@@ -4,4 +4,6 @@ class Student < ApplicationRecord
   has_one :wallet
 
   after_create :create_wallet!
+
+  delegate :name, to: :user
 end

@@ -18,7 +18,7 @@ class SendMessageJob < ApplicationJob
         user: user,
         chat_id: chat_id,
         text: text,
-        payload: response['result']
+        payload: response['result'],
         message_id: response['message_id']
       ) if user.present?
     end

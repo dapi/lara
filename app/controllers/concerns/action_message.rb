@@ -17,5 +17,4 @@ module ActionMessage
       reply_with :message, text: "Я не понимаю"
     end
   end
-
 end
