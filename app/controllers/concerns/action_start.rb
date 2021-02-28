@@ -2,7 +2,7 @@ module ActionStart
   def start!(message = '', *args)
     if logged_in?
       respond_with :message,
-        text: multiline("#{current_user.firstname}, привет!", Settings.welcome_message.each_line.to_a)
+        text: multiline("#{current_user.firstname}, привет!", Settings.welcome_message)
     elsif message.gsub!(/^i_/,'')
       invite = Invite.find_by(key: message)
       if invite.present?
