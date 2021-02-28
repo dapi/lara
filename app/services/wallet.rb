@@ -1,3 +1,0 @@
-class Wallet
-  STAR = '⭐️'
-end
