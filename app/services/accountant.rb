@@ -9,6 +9,7 @@ class Accountant
     raise 'Звёзд должно быть положительное количество' unless stars.positive?
     wallet.with_lock do
       wallet.update stars: wallet.stars + stars
+      wallet.transfers.create! stars: stars, message: message, payer: payer
     end
 
     owner = wallet.student.user

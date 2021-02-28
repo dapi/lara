@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_28_054858) do
+ActiveRecord::Schema.define(version: 2021_02_28_185630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -116,6 +116,17 @@ ActiveRecord::Schema.define(version: 2021_02_28_054858) do
     t.index ["telegram_id"], name: "index_users_on_telegram_id", unique: true
   end
 
+  create_table "wallet_transfers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "wallet_id", null: false
+    t.uuid "payer_id", null: false
+    t.integer "stars", null: false
+    t.string "message", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payer_id"], name: "index_wallet_transfers_on_payer_id"
+    t.index ["wallet_id"], name: "index_wallet_transfers_on_wallet_id"
+  end
+
   create_table "wallets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "student_id", null: false
     t.integer "stars", default: 0, null: false
@@ -136,5 +147,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_054858) do
   add_foreign_key "study_rooms", "users", column: "classroom_teacher_id"
   add_foreign_key "teachers", "study_rooms"
   add_foreign_key "teachers", "users"
+  add_foreign_key "wallet_transfers", "users", column: "payer_id"
+  add_foreign_key "wallet_transfers", "wallets"
   add_foreign_key "wallets", "students"
 end

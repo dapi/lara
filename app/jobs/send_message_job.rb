@@ -19,7 +19,7 @@ class SendMessageJob < ApplicationJob
         chat_id: chat_id,
         text: text,
         payload: response['result'],
-        message_id: response['message_id']
+        message_id: response.dig('result', 'message_id')
       ) if user.present?
     end
   end
