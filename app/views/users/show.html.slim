@@ -3,6 +3,8 @@
 
 h1 Пользователь #{user.name}
 
+div= user.full_name
+
 pre= user.telegram_info
 
 h2 Дети
@@ -21,7 +23,9 @@ h2 Потенциальное родительство:
 
 table.table
   - User.find_each do |parent|
-    - next if parent == user || user.parents.include?(parent)
-    tr
-      td= parent.full_name
-      td= link_to 'Создать родительство', children_relationships_path(children_id: user.id, parent_id: parent.id), method: :create, class: 'btn btn-secondary'
+    - next if parent == user || user.parents.include?(parent) || parent.students.any?
+    tr 
+      td
+        = link_to user_path(parent) do
+          = parent.full_name
+      td= link_to 'Указать родителем', children_relationships_path(children_id: user.id, parent_id: parent.id), method: :create, class: 'btn btn-secondary'
