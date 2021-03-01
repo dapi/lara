@@ -13,7 +13,7 @@ div.mb-2
       - study_room.student_users.each do |user|
         tr
           td
-            = link_to user.name, user_path(user)
+            = link_to user.full_name, user_path(user)
           td
             = render 'users', scope: user.parents, title: 'Родители'
   .col-md-6
@@ -28,7 +28,7 @@ div.mb-2
     table.table
       - study_room.teacher_users.each do |user|
         tr
-          td= link_to user.name, user_path(user)
+          td= link_to user.full_name, user_path(user)
 
 
 = render 'invites', study_room: study_room
