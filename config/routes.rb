@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  resources :sessions #, only: [:destroy]
+  resources :sessions do
+    collection do
+      delete :destroy
+    end
+  end
   resources :messages, only: [:index, :show, :new, :create]
   resources :users, only: [:index, :show]
   resources :children_relationships, only: [:create]

@@ -1,7 +1,7 @@
 doctype html
 html lang='ru'
   head
-    title Лара
+    title Лара - личный помощник по учебной части
     meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
@@ -9,6 +9,7 @@ html lang='ru'
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    = render 'navbar'
+    - if logged_in?
+      = render 'navbar'
     .container
       = yield

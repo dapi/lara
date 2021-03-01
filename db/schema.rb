@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_28_185630) do
+ActiveRecord::Schema.define(version: 2021_02_28_185631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -113,6 +113,9 @@ ActiveRecord::Schema.define(version: 2021_02_28_185630) do
     t.jsonb "telegram_info", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
+    t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
     t.index ["telegram_id"], name: "index_users_on_telegram_id", unique: true
   end
 
