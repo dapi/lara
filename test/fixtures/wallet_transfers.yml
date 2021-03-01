@@ -2,12 +2,12 @@
 
 one:
   wallet: one
-  stars: one
-  recipient: one
-  payer: 
+  stars: 1
+  payer: one
+  message: 'message'
 
 two:
   wallet: two
-  stars: two
-  recipient: two
-  payer: 
+  stars: 2
+  payer: one
+  message: 'message'
