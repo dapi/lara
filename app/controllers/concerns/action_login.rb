@@ -1,8 +1,8 @@
 module ActionLogin
-  # Отправляет в чат ссылку на логин на web-е
+  # Отправляет в чат ссылку на авторизацию на сайте
   def login!
     link = TelegramVerifier.build_link user_id: current_user.id
     reply_with :message,
-      text: "Сходите по ссылке #{link} чтобы атворизоваться"
+      text: "Кликните на ссылке #{link} чтобы атворизоваться на сайте"
   end
 end

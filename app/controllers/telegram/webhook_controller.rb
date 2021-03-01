@@ -24,10 +24,6 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     edit_message :text, text: "Вы выбрали #{data}"
   end
 
-  def error!
-    raise StandardError, 'test error'
-  end
-
   private
 
   def multiline(*args)

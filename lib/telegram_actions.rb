@@ -7,7 +7,9 @@ class TelegramActions
     Telegram::WebhookController
       .instance_methods
       .filter { |s| !IGNORE_ACTIONS.include?(s) && s.ends_with?('!') }
-    #  method=Telegram::WebhookController.instance_method(:start!)
-    #  method.comment
+      .sort
+      .each_with_object({}) do |method, hash|
+      hash[method]=Telegram::WebhookController.instance_method(method).comment.gsub(/^#\s+/,'').presence
+    end
   end
 end
