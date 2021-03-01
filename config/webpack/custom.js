@@ -1,7 +1,7 @@
 module.exports = {
   resolve: {
     alias: {
-      jquery: 'jquery/jquery',
+      jQuery: 'jquery/jquery',
       '$': 'jquery/jquery',
     }
   }
