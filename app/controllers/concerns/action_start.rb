@@ -1,4 +1,5 @@
 module ActionStart
+  # Старт общения с Ларой
   def start!(message = '', *args)
     if logged_in?
       start_message
