@@ -40,6 +40,10 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     @current_user = User.find_by telegram_id: from['id']
   end
 
+  def is_teacher?
+    study_room.teacher_users.include? current_user
+  end
+
   def logged_in?
     current_user.present?
   end

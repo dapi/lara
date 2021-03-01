@@ -2,19 +2,22 @@ module ActionGive
   MAX_STARS = 10
   # Выдает звездочки
   def give!(*args)
-    save_context nil
-    session[:selected_student_id] = nil
-    inline_keyboard = study_room
-      .students
-      .where.not(user_id: current_user.id)
-      .map { |s| { text: s.user.name, callback_data: "select_student:#{s.id}" }}
-      .each_slice(2)
-      .to_a
-    reply_with :message, text: "Так-так, сейчас будем раздавать звездочки. Кому?",
-      reply_markup: {
-      resize_keyboard: true,
-      inline_keyboard: inline_keyboard
-    }
+    if is_teacher?
+      session[:selected_student_id] = nil
+      inline_keyboard = study_room
+        .students
+        .where.not(user_id: current_user.id)
+        .map { |s| { text: s.user.name, callback_data: "select_student:#{s.id}" }}
+        .each_slice(2)
+        .to_a
+      reply_with :message, text: "Так-так, сейчас будем раздавать звездочки. Кому?",
+        reply_markup: {
+        resize_keyboard: true,
+        inline_keyboard: inline_keyboard
+      }
+    else
+      reply_with :message, text: "Звёздочки раздавать могут только учителя"
+    end
   end
 
   def give_stars(stars, *message)
