@@ -21,6 +21,10 @@ class User < ApplicationRecord
   validates :phone, phone: { allow_blank: true }, uniqueness: { allow_blank: true }
   validates :telegram_id, uniqueness: true
 
+  def public_name
+    name
+  end
+
   def name
     [firstname, middlename].compact.join(' ')
   end

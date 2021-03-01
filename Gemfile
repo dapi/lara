@@ -91,3 +91,9 @@ end
 gem "sorcery", "~> 0.16.0"
 
 gem "dentaku", "~> 3.4"
+
+gem "semver2", "~> 3.4"
+
+gem "active_link_to", "~> 1.0"
+
+gem "gravatarify", "~> 3.1"

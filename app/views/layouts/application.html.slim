@@ -9,9 +9,6 @@ html lang='ru'
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    = render 'header'
+    = render 'navbar'
     .container
-      .mt-3.alert.alert-success
-        | Привет!&nbsp;
-        = current_user.name
       = yield
