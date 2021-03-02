@@ -11,6 +11,7 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   # TODO Сохранять ответы в Message
   include ActionStart
+  include ActionPeople
   include ActionMessage
   include ActionInvite
   include ActionClass
@@ -54,6 +55,10 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
 
   def current_student
     @current_student ||= study_room.students.find_by(user: current_user)
+  end
+
+  def current_parent
+    @current_parent ||= study_room.parents.find_by(id: current_user)
   end
 
   def find_study_room

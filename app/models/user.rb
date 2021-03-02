@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_many :parents_relationships, foreign_key: :children_id, class_name: 'Relationship', counter_cache: true
   has_many :children_relationships, foreign_key: :parent_id, class_name: 'Relationship', counter_cache: true
   has_many :children, through: :children_relationships
+  # Дети как студенты
+  has_many :children_students, through: :children, source: :students, class_name: 'Student'
+
   has_many :parents, through: :parents_relationships, inverse_of: :children
   has_many :invites, inverse_of: :inviter, foreign_key: :inviter_id
   has_many :messages

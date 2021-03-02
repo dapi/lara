@@ -1,7 +1,7 @@
 module ActionMessage
   # Принимает сообщение
   def message(payload)
-    # "chat"=>{"id"=>-541244022 значит группа
+    return if chat['id'].negative?  # Групповой чат
     current_user
       .messages
       .create!(text: payload['text'],
