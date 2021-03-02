@@ -20,7 +20,6 @@ class User < ApplicationRecord
   end
 
   validates :firstname, presence: true
-  validates :surname, presence: true
   validates :phone, phone: { allow_blank: true }, uniqueness: { allow_blank: true }
   validates :telegram_id, uniqueness: true
 
