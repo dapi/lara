@@ -9,10 +9,11 @@ class User < ApplicationRecord
   has_many :children_students, through: :children, source: :students, class_name: 'Student'
 
   has_many :parents, through: :parents_relationships, inverse_of: :children
-  has_many :invites, inverse_of: :inviter, foreign_key: :inviter_id
-  has_many :messages
+  has_many :invites, inverse_of: :inviter, foreign_key: :inviter_id, dependent: :destroy
+  has_many :messages, dependent: :delete_all
 
-  has_many :students
+  has_many :wallet_transfers, foreign_key: :payer_id, dependent: :destroy
+  has_many :students, dependent: :destroy
   has_many :student_wallets, through: :students, source: :wallet
 
   before_validation do
