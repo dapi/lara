@@ -15,7 +15,6 @@ module ActionWallet
     elsif current_parent.present?
       students = current_parent.children_students.where(study_room_id: study_room)
       if students.any?
-
         students.each do |student|
           respond_with :message,
             text: multiline(
@@ -40,9 +39,17 @@ module ActionWallet
   end
 
   def present_wellet_transfers(transfers)
-    transfers
-      .map { |wt|
-      I18n.l(wt.created_at, format: :short) + " - #{wt.payer.name}: #{humanized_stars wt.stars} - #{wt.message}"
-    }
+    payers = {}
+    transfers.each do |wt|
+      payers[wt.payer] ||= []
+      payers[wt.payer] << wt
+    end
+
+    payers.map do |payer, transfers|
+      [
+        payer.name + ' выдала:',
+        *transfers.map { |wt| I18n.l(wt.created_at, format: :short) + ": #{humanized_stars wt.stars} - #{wt.message}" }
+      ]
+    end
   end
 end
