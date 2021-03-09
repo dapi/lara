@@ -45,9 +45,9 @@ module ActionGive
 
   def select_student_callback_query(student_id)
     student = Student.find student_id
-    edit_message :text, text: "Выбранный ученик: #{student.name}. Напиши числом сколько дадим звёзд?"
     save_context :give_stars
     session[:selected_student_id] = student_id
+    reply_with :message, text: multiline("Выбранный ученик: #{student.name}.", "Напиши числом сколько дадим звёзд?")
   end
 
   private
@@ -57,6 +57,6 @@ module ActionGive
     save_context :add_time
     project = find_project project_slug
     session[:add_time_project_id] = project.id
-    edit_message :text, text: "Вы выбрали проект #{project.slug}, теперь укажите время и через пробел комментарий (12 делал то-то)"
+    reply_with :message, text: "Вы выбрали проект #{project.slug}, теперь укажите время и через пробел комментарий (12 делал то-то)"
   end
 end
