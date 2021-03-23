@@ -65,4 +65,8 @@ class Telegram::WebhookController < Telegram::Bot::UpdatesController
     # TODO брать из сессии или вычислять у пользователя или спрашивать его
     StudyRoom.first
   end
+
+  def is_superuser?
+    ENV['SUPER_USER_ID'].present? && current_user == User.find_by(id: ENV.fetch('SUPER_USER_ID'))
+  end
 end
