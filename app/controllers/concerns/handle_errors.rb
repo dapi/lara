@@ -15,7 +15,7 @@ module HandleErrors
         b.meta_data = { from: from, chat: chat }
       end
       respond_with :message, text: multiline(
-        "Привет, #{from['first_name']}!",
+        "Привет, #{from.fetch( 'first_name', 'незнакомец!' )}!",
         nil,
         "К сожалению мы с тобой не знакомы. Обратись к своему классному руководителю чтобы он нас познакомил.",
         nil,
