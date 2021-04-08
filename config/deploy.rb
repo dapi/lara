@@ -60,10 +60,10 @@ lowlevel_error_handler do |e|
 end
 }
 
-# after 'deploy:check', 'puma:check'
 set :init_system, :systemd
 set :systemd_sidekiq_role, :sidekiq
 
+after 'deploy:check', 'master_key:check'
 after 'deploy:publishing', 'systemd:puma:reload-or-restart'
 after 'deploy:publishing', 'systemd:sidekiq:reload-or-restart'
 # after 'deploy:published', 'bugsnag:deploy'
