@@ -1,6 +1,5 @@
 [Unit]
-Description=sidekiq for polina (<%= fetch(:rails_env) %>)
-Description = Sidekiq for <%= fetch(:application) %> (<%= fetch(:stage) %> / <%= fetch(:rails_env) %>) application server
+Description=Sidekiq for <%= fetch(:application) %> (<%= fetch(:stage) %> / <%= fetch(:rails_env) %>)
 After=syslog.target network.target
 
 [Service]

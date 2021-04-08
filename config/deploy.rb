@@ -3,7 +3,7 @@
 lock '3.15'
 
 set :user, 'wwwuser'
-set :application, 'lara_bot'
+set :application, 'lara.brandymint.ru'
 
 set :repo_url, 'git@github.com:dapi/lara.git' if ENV['USE_LOCAL_REPO'].nil?
 set :keep_releases, 10

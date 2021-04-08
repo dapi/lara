@@ -1,6 +1,6 @@
 [Unit]
 Description = <%= fetch(:application) %> (<%= fetch(:stage) %>) application server
-After=network.target
+After=syslog.target network.target
 
 [Service]
 WatchdogSec=30

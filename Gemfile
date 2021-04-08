@@ -86,8 +86,6 @@ group :deploy do
   gem 'capistrano-systemd-multiservice', github: 'groovenauts/capistrano-systemd-multiservice', require: false
   gem 'capistrano-master-key', require: false, github: 'virgoproz/capistrano-master-key'
   gem 'capistrano-faster-assets', require: false
-  #gem 'capistrano-sidekiq', require: false
-  #gem 'capistrano3-puma', github: 'seuros/capistrano-puma', require: false, ref: '3e6af4f'
   gem 'capistrano-git-with-submodules'
 end
 
