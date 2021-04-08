@@ -1,5 +1,5 @@
 default_url_options: 
-  host: 3008.brandymint.ru
+  host: <%= ENV.fetch('HOST', 'localhost') %>
   protocol: https
 
 bot_link: https://telegram.me/LARA_HELPER_BOT

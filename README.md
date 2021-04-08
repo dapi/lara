@@ -1,4 +1,10 @@
-# README
+# Lara bot
+
+
+# Deploy
+
+> bundle exec cap production master_key:setup 
+> bundle exec cap production systemd:puma:setup systemd:sidekiq:setup 
 
 This README would normally document whatever steps are necessary to get the
 application up and running.

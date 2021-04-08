@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: mariva_production
-  username: mariva
-  password: <%= ENV['MARIVA_DATABASE_PASSWORD'] %>
+  database: lara_production
