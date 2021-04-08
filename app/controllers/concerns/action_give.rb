@@ -81,6 +81,7 @@ module ActionGive
   end
 
   def add_selected_students student
+    session[:selected_students_ids] ||= Set.new
     session[:selected_students_ids] << student.id
   end
 

@@ -14,8 +14,9 @@ module HandleErrors
       Bugsnag.notify error do |b|
         b.meta_data = { from: from, chat: chat }
       end
+      name = from.present? ? from.fetch( 'first_name', 'незнакомец!' ) : 'незнакомец!'
       respond_with :message, text: multiline(
-        "Привет, #{from.fetch( 'first_name', 'незнакомец!' )}!",
+        "Привет, #{name}!",
         nil,
         "К сожалению мы с тобой не знакомы. Обратись к своему классному руководителю чтобы он нас познакомил.",
         nil,
