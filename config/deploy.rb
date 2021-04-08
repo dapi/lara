@@ -48,7 +48,7 @@ set :puma_tag, fetch(:application)
 set :puma_daemonize, false
 set :puma_preload_app, false
 set :puma_prune_bundler, true
-set :puma_plugins, [:systemd]
+# set :puma_plugins, [:systemd]
 set :puma_init_active_record, true
 set :puma_workers, 1
 set :puma_start_task, 'systemd:puma:start'
