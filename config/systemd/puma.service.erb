@@ -8,7 +8,7 @@ Type=notify
 Environment=RACK_ENV=<%= fetch(:rails_env) %>
 Environment=RAILS_ENV=<%= fetch(:rails_env) %>
 Environment=PWD=<%= current_path %>
-EnvironmentFile=<%= shared_path %>/env
+EnvironmentFile=<%= current_path %>/.env
 # Helpful for debugging socket activation, etc.
 WorkingDirectory=<%= current_path %>
 ExecStart=/home/<%= fetch(:user) %>/.rbenv/bin/rbenv exec bundle exec puma -C <%= shared_path %>/puma.rb -e <%= fetch(:rails_env) %>
@@ -27,6 +27,11 @@ ExecStop=/home/<%= fetch(:user) %>/.rbenv/bin/rbenv exec bundle exec pumactl -S 
 # Group = <%= fetch(:user) %>
 KillMode=mixed
 Restart=always
+RestartSec=1
+SyslogIdentifier=puma
+
+StandardOutput=append:<%= fetch(:puma_access_log) %>
+StandardError=append:<%= fetch(:puma_error_log) %>
 
 [Install]
 # Use default.target to autoboot user service

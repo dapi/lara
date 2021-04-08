@@ -15,11 +15,8 @@ set :config_files, fetch(:linked_files)
 
 set :deploy_to, -> { "/home/#{fetch(:user)}/#{fetch(:application)}" }
 
-if ENV['BRANCH']
-  set :branch, ENV['BRANCH']
-else
-  ask(:branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp })
-end
+set :branch, ENV.fetch('BRANCH', 'main')
+#  ask(:branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp })
 
 set :rbenv_type, :user
 set :rbenv_ruby, File.read('.ruby-version').strip
@@ -42,18 +39,18 @@ set :puma_init_active_record, true
 set :db_local_clean, false
 set :db_remote_clean, true
 
-set :sidekiq_processes, 3
-set :sidekiq_options_per_process, ['--queue critical', '--queue critical --queue default', '--queue critical --queue mailers']
+set :sidekiq_processes, 1
+set :sidekiq_options_per_process, ['--queue critical --queue default --queue mailers']
 
 set :puma_control_app, true
-set :puma_threads, [8, 16]
+set :puma_threads, [2, 4]
 set :puma_tag, fetch(:application)
 set :puma_daemonize, false
 set :puma_preload_app, false
 set :puma_prune_bundler, true
 set :puma_plugins, [:systemd]
 set :puma_init_active_record, true
-set :puma_workers, 2
+set :puma_workers, 1
 set :puma_start_task, 'systemd:puma:start'
 set :puma_extra_settings, %{
 extra_runtime_dependencies 'puma-plugin-systemd'
@@ -63,6 +60,7 @@ lowlevel_error_handler do |e|
 end
 }
 
+# after 'deploy:check', 'puma:check'
 set :init_system, :systemd
 set :systemd_sidekiq_role, :sidekiq
 

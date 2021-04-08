@@ -74,6 +74,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 group :deploy do
   gem 'capistrano-dotenv-tasks'
+  gem 'capistrano3-puma'
   gem 'capistrano', require: false
   gem 'capistrano-rbenv', require: false
   gem 'capistrano-rails', require: false

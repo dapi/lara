@@ -6,7 +6,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 Environment=RAILS_ENV=<%= fetch(:rails_env) %>
-EnvironmentFile=<%= shared_path %>/env
+EnvironmentFile=<%= current_path %>/.env
 WorkingDirectory=<%= current_path %>
 ExecStart=/home/<%= fetch(:user) %>/.rbenv/bin/rbenv exec bundle exec sidekiq -e <%= fetch(:stage) %>
 ExecStop=/bin/kill -TERM $MAINPID
