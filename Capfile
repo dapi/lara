@@ -26,6 +26,7 @@ require 'capistrano/shell'
 require 'capistrano/rails/assets'
 require 'capistrano/faster_assets'
 require 'capistrano/rails/migrations'
+require 'capistrano/dotenv/tasks'
 
 # require 'capistrano/rails/console'
 require 'capistrano/master_key'

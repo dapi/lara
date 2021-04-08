@@ -8,7 +8,7 @@ set :application, 'lara_bot'
 set :repo_url, 'git@github.com:dapi/lara.git' if ENV['USE_LOCAL_REPO'].nil?
 set :keep_releases, 10
 
-set :linked_files, %w[ config/master.key]
+set :linked_files, %w[.env config/master.key]
 set :linked_dirs, %w[log node_modules tmp/pids tmp/cache tmp/sockets public/assets public/packs]
 
 set :config_files, fetch(:linked_files)
@@ -66,14 +66,6 @@ end
 set :init_system, :systemd
 set :systemd_sidekiq_role, :sidekiq
 
-desc "Uploads CHANGELOG.txt to all remote servers."
-task :upload_env do
-  on roles(:all) do
-    upload!(".env.production", "#{shared_path}/env")
-  end
-end
-
-before 'deploy:check', 'upload_env'
 after 'deploy:publishing', 'systemd:puma:reload-or-restart'
 after 'deploy:publishing', 'systemd:sidekiq:reload-or-restart'
 # after 'deploy:published', 'bugsnag:deploy'
